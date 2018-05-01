@@ -1,0 +1,23 @@
+{
+  "name": "msquestionnaire",
+  "version": "0.0.1",
+  "description": "A questionnaire website for survey and test.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mshrinetra/msquestionnaire.git"
+  },
+  "keywords": [
+    "questionnaire",
+    "survey"
+  ],
+  "author": "Manvendra Shrinetra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mshrinetra/msquestionnaire/issues"
+  },
+  "homepage": "https://github.com/mshrinetra/msquestionnaire#readme"
+}
