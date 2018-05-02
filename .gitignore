@@ -57,3 +57,14 @@ typings/
 # dotenv environment variables file
 .env
 
+# Client ID and secret file
+keys.js
+
+# Certificates and keys
+*.crt
+*.key
+*.csr
+
+# Notes
+notes.txt
+roughNotes.txt
