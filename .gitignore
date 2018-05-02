@@ -58,7 +58,7 @@ typings/
 .env
 
 # Client ID and secret file
-keys.js
+devKeys.js
 
 # Certificates and keys
 *.crt
