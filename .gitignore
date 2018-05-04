@@ -57,6 +57,27 @@ typings/
 # dotenv environment variables file
 .env
 
+## For create-react-app (client)
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+## For create-react-app (client) <- END
+
 # Client ID and secret file
 devKeys.js
 

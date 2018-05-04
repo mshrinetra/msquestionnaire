@@ -12,6 +12,7 @@ require("./services/passport");
 var options = {
     key: fs.readFileSync('./config/server.key'),
     cert: fs.readFileSync('./config/server.crt'),
+    ca: fs.readFileSync('./config/msRootCA.crt'),
     requestCert: false,
     rejectUnauthorized: false
 };

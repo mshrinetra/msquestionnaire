@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/auth/facebook": {
-      "target": "https://localhost:5000"
+    "/auth": {
+      "target": "https://localhost:5000",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
     },
-    "/api/*": {
-      "target": "https://localhost:5000"
+    "/api": {
+      "target": "https://localhost:5000",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
     }
   },
   "dependencies": {
@@ -25,7 +31,7 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
