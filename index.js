@@ -31,14 +31,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-    res.send("Welcome");
-});
-
-app.get("/home", (req, res) => {
-    res.send("Logged In");
-});
-
 require("./routes/authRoutes")(app);
 
 const PORT = process.env.PORT || 5000;

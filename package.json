@@ -1,6 +1,6 @@
 {
   "name": "msquestionnaire",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A questionnaire website for survey and test.",
   "main": "index.js",
   "scripts": {

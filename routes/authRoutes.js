@@ -1,35 +1,18 @@
 const passport = require("passport");
 
 module.exports = app => {
-    // app.get(
-    //     "/auth/facebook",
-    //     passport.authenticate(
-    //         "facebook",
-    //         {
-    //             scope: ["profile", "email"]
-    //         }
-    //     )
-    // );
-
     app.get(
         "/auth/facebook",
         passport.authenticate("facebook")
     );
 
     app.get(
-        '/auth/facebook/callback',
+        "/auth/facebook/callback",
         passport.authenticate(
-            'facebook',
-            { failureRedirect: '/login' }
+            "facebook"
         ),
         (req, res) => {
-            // Successful authentication, redirect home.
-            // console.log("REQ===>>>>");
-            // console.log(req);
-            // console.log("RES===>>>>");
-            // console.log(res);
-            // res.send('Success!!');
-            res.redirect("/home");
+            res.redirect("/dashboard");
         }
     );
 
@@ -37,7 +20,7 @@ module.exports = app => {
         "/api/logout",
         (req, res) => {
             req.logout();
-            res.send("Looged out :-(");
+            res.redirect("/");
         }
     );
 
