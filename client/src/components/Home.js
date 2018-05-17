@@ -14,7 +14,7 @@ class Home extends Component {
     renderJumbotronButton() {
         if (this.props.auth) {
             return (
-                <Link className="btn btn-primary btn-lg" to="/dashboard" role="button">Continue  as {this.props.auth.Name}</Link>
+                <Link className="btn btn-primary btn-lg" to="/dashboard" role="button">Continue  as {this.props.auth.userName}</Link>
             );
         } else {
             return (

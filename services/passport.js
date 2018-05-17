@@ -25,21 +25,18 @@ passport.use(
             proxy: true
         },
         (accessToken, refreshToken, profile, done) => {
-            // console.log("ACCESS TOKEN ====>>>" + accessToken);
-            // console.log("REFRESH TOKEN ====>>>" + refreshToken);
-            // console.log("PROFILE ====>>>" + JSON.stringify(profile));
-            // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-            //     return cb(err, user);
-            // });
-
-            User.findOne({ fbID: profile.id })
+            User.findOne({
+                socialProvider: "Facebook",
+                providerId: profile.id
+            })
                 .then(existingUser => {
                     if (existingUser) {
                         done(null, existingUser);
                     } else {
                         new User({
-                            fbID: profile.id,
-                            Name: profile.displayName
+                            socialProvider: "Facebook",
+                            providerId: profile.id,
+                            userName: profile.displayName
                         })
                             .save()
                             .then(newUser => {

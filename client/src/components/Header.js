@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 class Header extends Component {
-    // constructor() {
-    //     super(props);
-    // }
 
     renderHeaderNavs() {
         if (this.props.auth) {
@@ -20,9 +17,9 @@ class Header extends Component {
                     </li>
                     <li className="nav-item">
                         <a className="btn btn-outline-success" data-toggle="modal" data-target="#loginModel" href="">{
-                            (this.props.auth.Name.split(" "))[0].length <= 15
-                                ? ("Logged in as " + (this.props.auth.Name.split(" "))[0])
-                                : ("Logged in as " + (this.props.auth.Name.split(" "))[0].substring(0, 12) + "...")
+                            (this.props.auth.userName.split(" "))[0].length <= 15
+                                ? ("Logged in as " + (this.props.auth.userName.split(" "))[0])
+                                : ("Logged in as " + (this.props.auth.userName.split(" "))[0].substring(0, 12) + "...")
                         }</a>
                     </li>
                 </ul>
@@ -44,7 +41,7 @@ class Header extends Component {
         let modelBody = "";
         let modelButton = "";
         if (this.props.auth) {
-            modelTitle = this.props.auth.Name
+            modelTitle = this.props.auth.userName
             modelBody = "Your ID is " + this.props.auth._id + " !"
             modelButton = (<a href="/api/logout" className="btn btn-danger">Logout</a>);
         } else {

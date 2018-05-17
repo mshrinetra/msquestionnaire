@@ -4,7 +4,13 @@ body{
 
 .container{
     margin-top: 3.5rem;
+    margin-bottom: 3rem;
 }
+
+.jumbotron{
+    margin-top: -3.5rem;
+}
+
 /* Shared */
 .loginBtn {
     box-sizing: border-box;
@@ -74,7 +80,7 @@ body{
 }
 
 .footer{
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.9);
     color: gray;
     padding: 0.3 rem;
     text-align: center;

@@ -1,18 +1,21 @@
-var https = require('https');
-var fs = require('fs');
-const express = require('express');
+const https = require("https");
+const fs = require("fs");
+const path = require("path");
+const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const keys = require("./config/keys");
 
 require("./models/user");
+require("./models/profile");
+require("./models/questionnaire");
 require("./services/passport");
 
 var options = {
-    key: fs.readFileSync('./config/server.key'),
-    cert: fs.readFileSync('./config/server.crt'),
-    ca: fs.readFileSync('./config/msRootCA.crt'),
+    key: fs.readFileSync("./config/server.key"),
+    cert: fs.readFileSync("./config/server.crt"),
+    ca: fs.readFileSync("./config/msRootCA.crt"),
     requestCert: false,
     rejectUnauthorized: false
 };
@@ -32,9 +35,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
+require("./routes/userRoutes")(app);
+require("./routes/qsnrRoutes")(app);
 
-const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+}
+
+const PORT = (process.env.PORT ? process.env.PORT : (process.env.NODE_ENV === "production" ? 443 : 5000));
 
 var server = https.createServer(options, app).listen(PORT, function () {
-    console.log("Server started at port " + PORT + " !");
+    console.log("Server started at port " + PORT + " !")
 });
