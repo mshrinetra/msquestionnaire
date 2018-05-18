@@ -35,19 +35,18 @@ class Questionnaire extends Component {
     }
 
     handleMouseEnter(e) {
-        if (e.target.className != "ansCard card card-body m-3 bg-success text-white") {
+        if (e.target.className !== "ansCard card card-body m-3 bg-success text-white") {
             e.target.className = "ansCard card card-body m-3 bg-primary text-white";
         }
     }
 
     handleMouseLeave(e) {
-        if (e.target.className != "ansCard card card-body m-3 bg-success text-white") {
+        if (e.target.className !== "ansCard card card-body m-3 bg-success text-white") {
             e.target.className = "ansCard card card-body m-3 bg-info text-white";
         }
     }
 
     handleAnsClick(e, qId, optionId) {
-        let item = this.state.response;
         let newState = {
             ...this.state,
         };
