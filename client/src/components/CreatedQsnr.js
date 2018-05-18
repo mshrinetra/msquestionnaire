@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class CreatedQsnr extends Component {
 
@@ -40,7 +41,7 @@ class CreatedQsnr extends Component {
         );
     }
 
-    render() {
+    renderCreatedQuestionnaire() {
         return (
             <div>
                 <h2>Created Questionnaire</h2>
@@ -59,8 +60,25 @@ class CreatedQsnr extends Component {
                 <a href="#" className="btn btn-info btn-md" role="button">Prev</a>
                 <span className="ml-4 mr-4">Page {1} of {10}</span>
                 <a href="#" className="btn btn-info btn-md" role="button">Next</a>
+                <br />
+                <Link to="/createnew" className="btn btn-primary btn-lg" role="button">Create New Questionnaire</Link>
             </div>
         );
+    }
+
+    renderCreateNewQuestionnaire() {
+        <div>
+            <h3>You have not created any Questionnaire !</h3>
+            <Link to="/Createnew" className="btn btn-primary btn-lg" role="button">Create your first Questionnaire here</Link>
+        </div>
+    }
+
+    render() {
+        if (this.props.createdQsnr.length > 0) {
+            return this.renderCreatedQuestionnaire();
+        } else {
+            return this.renderCreateNewQuestionnaire();
+        }
     }
 }
 

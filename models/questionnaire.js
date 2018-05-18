@@ -15,11 +15,13 @@ const qsnrSchema = new Schema(
         questionnaire: [
             {
                 qId: Number,
-                qText: String,
-                opA: String,
-                opB: String,
-                opC: String,
-                opD: String
+                options: {
+                    qText: String,
+                    opA: String,
+                    opB: String,
+                    opC: String,
+                    opD: String
+                }
             }
         ],
         stats: {

@@ -6,7 +6,7 @@ import * as actions from "../actions";
 import Home from "./Home";
 import Dashboard from "./Dashboard";
 import Quiz from "./Questionnaire";
-import New from "./CreateNew";
+import CreateNew from "./CreateNew";
 import Footer from "./footer";
 
 
@@ -23,7 +23,7 @@ class App extends Component {
                         <Route exact={true} path="/" component={Home} />
                         <Route exact={true} path="/dashboard" component={Dashboard} />
                         <Route exact={true} path="/questionnaire" component={Quiz} />
-                        <Route exact={true} path="/createnew" component={New} />
+                        <Route exact={true} path="/createnew" component={CreateNew} />
                     </div>
                 </BrowserRouter>
                 <Footer />

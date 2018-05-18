@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class AvailableQsnr extends Component {
 
@@ -9,8 +10,8 @@ class AvailableQsnr extends Component {
                 <td>{qsnr.about.creatorName}</td>
                 <td>{qsnr.about.qsnrType}</td>
                 <td><button type="button" className="btn btn-outline-info" data-toggle="collapse" data-target={"#availableCollapse" + qsnr.about.qsnrId} aria-expanded="false" aria-controls={"availableCollapse" + qsnr.about.qsnrId}>Know More</button></td>
-                <td><button type="button" className="btn btn-outline-success">Take It</button></td>
-            </tr>
+                <td><Link to={{ pathname: "/questionnaire", query: { qsnrId: qsnr.about.qsnrId } }} className="btn btn-outline-success active" role="button" aria-pressed="true">Take It</Link></td>
+            </tr >
         );
     }
     renderTableCollapse(qsnr) {

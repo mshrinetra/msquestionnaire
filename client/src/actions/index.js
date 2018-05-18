@@ -42,3 +42,27 @@ export const fetchProfile = () => {
             );
     }
 };
+
+export const fetchQsnr = (getQuery) => {
+    return function (dispatch) {
+        axios.get(getQuery)
+            .then(
+                res => dispatch({
+                    type: types.FETCH_QSNR,
+                    payload: res
+                })
+            );
+    }
+};
+
+export const submitQsnr = (payload) => {
+    return function (dispatch) {
+        axios.post("/api/qsnr_submit", payload)
+            .then(
+                res => dispatch({
+                    type: types.SUBMIT_QSNR,
+                    payload: res
+                })
+            );
+    }
+};
