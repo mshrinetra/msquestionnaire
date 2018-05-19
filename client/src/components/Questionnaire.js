@@ -23,17 +23,6 @@ class Questionnaire extends Component {
         }
     }
 
-    renderSummary() {
-        return (<div>
-            <ul>
-                <li><b>Title:</b> {this.props.qsnr.about.qsnrTitle}</li>
-                <li><b>Description:</b> {this.props.qsnr.about.qsnrDescription}</li>
-                <li><b>Author:</b> {this.props.qsnr.about.creatorName}</li>
-                <li><b>No of Question:</b> {this.props.qsnr.about.noOfQuestions}</li>
-            </ul>
-        </div>);
-    }
-
     handleMouseEnter(e) {
         if (e.target.className !== "ansCard card card-body m-3 bg-success text-white") {
             e.target.className = "ansCard card card-body m-3 bg-primary text-white";
@@ -52,12 +41,26 @@ class Questionnaire extends Component {
         };
         newState.response[qId] = optionId;
         this.setState(newState);
-        console.log(this.state);
         e.target.parentNode.childNodes.forEach(node => { node.className = "ansCard card card-body m-3 bg-info text-white" });
         e.target.className = "ansCard card card-body m-3 bg-success text-white";
     }
 
-    renderOption(name, value, qId) {
+    processSubmission() {
+        this.props.submitQsnr(this.state.response);
+    }
+
+    renderSummary() {
+        return (
+            <ul>
+                <li><b>Title:</b> {this.props.qsnr.about.qsnrTitle}</li>
+                <li><b>Description:</b> {this.props.qsnr.about.qsnrDescription}</li>
+                <li><b>Author:</b> {this.props.qsnr.about.creatorName}</li>
+                <li><b>No of Question:</b> {this.props.qsnr.about.noOfQuestions}</li>
+            </ul>
+        );
+    }
+
+    renderOptionCard(name, value, qId) {
 
         return (
             <div className="ansCard card card-body m-3 bg-info text-white" key={name} onMouseEnter={e => this.handleMouseEnter(e)} onMouseLeave={e => this.handleMouseLeave(e)} onClick={e => this.handleAnsClick(e, qId, name)}>
@@ -66,7 +69,7 @@ class Questionnaire extends Component {
         );
     }
 
-    renderQcard(qsnr) {
+    renderQuestionCard(qsnr) {
         return (
             <div className="qCard card col-12 bg-light m-3" key={qsnr.qId}>
                 <div className="card-body">
@@ -75,7 +78,7 @@ class Questionnaire extends Component {
                     </div>
                     <hr />
                     <div className="optionsArea row">
-                        {Object.keys(qsnr.options).map((name, index) => this.renderOption(name, qsnr.options[name], qsnr.qId))}
+                        {Object.keys(qsnr.options).map((name, index) => this.renderOptionCard(name, qsnr.options[name], qsnr.qId))}
                     </div>
                 </div>
             </div>
@@ -85,19 +88,15 @@ class Questionnaire extends Component {
     renderQuestions() {
         return (
             <div>
-                {this.props.qsnr.qsnr.map(qsnr => this.renderQcard(qsnr))}
+                {this.props.qsnr.qsnr.map(qsnr => this.renderQuestionCard(qsnr))}
             </div>
         );
-    }
-
-    processSubmission() {
-        this.props.submitQsnr(this.state.response);
     }
 
     renderSubmission() {
         return (
             <div>
-                <Link to="/dashboard" class="btn btn-danger m-4 btn-lg active" role="button" aria-pressed="true">Cancel</Link>
+                <Link to="/dashboard" className="btn btn-danger m-4 btn-lg active" role="button" aria-pressed="true">Cancel</Link>
                 <button type="button" className="btn btn-lg btn-success m-4" onClick={this.processSubmission}>Submit</button>
             </div>
         );
@@ -106,9 +105,61 @@ class Questionnaire extends Component {
     renderQuestionnaire() {
         return (
             <div>
-                {this.renderSummary()}
-                {this.renderQuestions()}
-                {this.renderSubmission()}
+                <div className="card border-brimary text-primary">
+                    <div className="card-header text-white bg-primary">
+                        <h4>Summary of Questionnaire</h4>
+                    </div>
+                    <div className="card-body">
+                        {this.renderSummary()}
+                    </div>
+                </div>
+                <div className="card border-info">
+                    <div className="card-header text-white bg-info">
+                        <h4>Questionnaire</h4>
+                    </div>
+                    <div className="card-body">
+                        {this.renderQuestions()}
+                    </div>
+                    <div className="card-footer">
+                        {this.renderSubmission()}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderSuccessResult() {
+        return (
+            <div className="card bg-success text-white border-success">
+                <div className="card-header">
+                    <h4>Submitted successfully!</h4>
+                </div>
+                <div className="card-body text-center">
+                    <h3>Thank You !!!</h3>
+                </div>
+                <Link to="/dashboard" className="btn btn-info m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
+            </div>
+        );
+    }
+
+    renderFailResult() {
+        return (
+            <div className="card bg-danger text-white border-danger">
+                <div className="card-header">
+                    <h4>Some error occured :-(</h4>
+                </div>
+                <div className="card-body text-center">
+                    <h3>Sorry !!!</h3>
+                </div>
+                <Link to="/dashboard" className="btn btn-info m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
+            </div>
+        );
+    }
+
+    renderResult() {
+        return (
+            <div>
+                {this.props.result.success ? this.renderSuccessResult() : this.renderFailResult()}
             </div>
         );
     }
@@ -116,25 +167,14 @@ class Questionnaire extends Component {
     renderNoQsnr() {
 
         return (
-            <div className="card col-12 bg-light">
+            <div className="card bg-warning text-white border-warning">
                 <div className="card-body">
-                    <h3>No Questionnaire Selected !!!</h3>
+                    <h4>No Questionnaire Selected !!!</h4>
                 </div>
-                <Link to="/dashboard" class="btn btn-primary m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
+                <Link to="/dashboard" className="btn btn-info m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
             </div>
         );
 
-    }
-
-    renderResult() {
-        return (
-            <div className="card col-12 bg-light">
-                <div className="card-body">
-                    <h3>{this.props.result ? "Thank You !!!" : "Some error occured :-("}</h3>
-                </div>
-                <Link to="/dashboard" class="btn btn-success m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
-            </div>
-        );
     }
 
     render() {

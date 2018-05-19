@@ -91,35 +91,30 @@ class CreateNew extends Component {
 
     renderSummaryForm() {
         return (
-            <div className="card col-12 bg-light mb-3">
-                <div className="card-header">
-                    <h3>Please provide the following details</h3>
+            <div>
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Title</span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Title of the Questionnaire" onChange={e => this.handleTitleChange(e)} />
                 </div>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Title</span>
-                        </div>
-                        <input type="text" className="form-control" placeholder="Title of the Questionnaire" onChange={e => this.handleTitleChange(e)} />
+                <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Description</span>
                     </div>
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text">Description</span>
-                        </div>
-                        <textarea className="form-control" aria-label="Description" onChange={e => this.handleDescriptionChange(e)}></textarea>
-                    </div>
-                    <div className="input-group mb-3">
-                        <select className="custom-select" id="qCountSelect" defaultValue={"10"} onChange={e => this.handleNoOfQuestionChange(e)}>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
-                        </select>
-                        <select className="custom-select" id="qTypeSelect" defaultValue={"Survey"} onChange={e => this.handleTypeChange(e)}>
-                            <option value="Survey">Survey</option>
-                            <option value="Test">Test</option>
-                        </select>
-                    </div>
+                    <textarea className="form-control" aria-label="Description" onChange={e => this.handleDescriptionChange(e)}></textarea>
+                </div>
+                <div className="input-group mb-3">
+                    <select className="custom-select" id="qCountSelect" defaultValue={"10"} onChange={e => this.handleNoOfQuestionChange(e)}>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                    <select className="custom-select" id="qTypeSelect" defaultValue={"Survey"} onChange={e => this.handleTypeChange(e)}>
+                        <option value="Survey">Survey</option>
+                        <option value="Test">Test</option>
+                    </select>
                 </div>
             </div>
         );
@@ -128,7 +123,7 @@ class CreateNew extends Component {
 
     renderQuestionCard(qId) {
         return (
-            <div className="qCard card col-12 bg-light mb-3" key={qId}>
+            <div className="qCard card text-info border-info bg-light mb-3" key={qId}>
                 <div className="card-body">
                     <div className="qArea">
                         <div className="input-group mb-3">
@@ -141,7 +136,7 @@ class CreateNew extends Component {
                     <hr />
                     <div className="optionsArea row">
                         {
-                            Array.from({ length: 4 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i)).map(opId => this.renderOption(qId, opId))
+                            Array.from({ length: 4 }, (_, i) => String.fromCharCode('A'.charCodeAt(0) + i)).map(opId => this.renderOptionCard(qId, opId))
                         }
                     </div>
                 </div>
@@ -149,10 +144,10 @@ class CreateNew extends Component {
         );
     }
 
-    renderOption(qId, opId) {
+    renderOptionCard(qId, opId) {
 
         return (
-            <div className="card card-body m-3 bg-light" key={opId}>
+            <div className="card card-body text-primary border-primary m-3 bg-light" key={opId}>
                 <span>{"Option " + opId}</span>
                 {
                     this.state.type == "Test" ? this.renderTestOption(qId, opId) : this.renderSurveyOption(qId, opId)
@@ -204,20 +199,61 @@ class CreateNew extends Component {
     renderCreateNew() {
         return (
             <div>
-                {this.renderSummaryForm()}
-                {this.renderQuestionsForm()}
-                {this.renderSubmission()}
+                <div className="card text-primary border-primary">
+                    <div className="card-header text-white bg-primary">
+                        <h4>Please provide the following details</h4>
+                    </div>
+                    <div className="card-body">
+                        {this.renderSummaryForm()}
+                    </div>
+                </div>
+                <div className="card border-info">
+                    <div className="card-header text-white bg-info">
+                        <h4>Please fill the Questionnaire</h4>
+                    </div>
+                    <div className="card-body">
+                        {this.renderQuestionsForm()}
+                    </div>
+                    <div className="card-footer">
+                        {this.renderSubmission()}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    renderSuccessResult() {
+        return (
+            <div className="card bg-success text-white border-success">
+                <div className="card-header">
+                    <h4>Submitted successfully!</h4>
+                </div>
+                <div className="card-body text-center">
+                    <h3>Thank You !!!</h3>
+                </div>
+                <Link to="/dashboard" className="btn btn-info m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
+            </div>
+        );
+    }
+
+    renderFailResult() {
+        return (
+            <div className="card bg-danger text-white border-danger">
+                <div className="card-header">
+                    <h4>Some error occured :-(</h4>
+                </div>
+                <div className="card-body text-center">
+                    <h3>Sorry !!!</h3>
+                </div>
+                <Link to="/dashboard" className="btn btn-info m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
             </div>
         );
     }
 
     renderResult() {
         return (
-            <div className="card col-12 bg-light">
-                <div className="card-body">
-                    <h3>{this.props.result ? "Thank You !!!" : "Some error occured :-("}</h3>
-                </div>
-                <Link to="/dashboard" className="btn btn-success m-4 btn-lg active" role="button" aria-pressed="true">Go Back to Dashboard</Link>
+            <div>
+                {this.props.result.success ? this.renderSuccessResult() : this.renderFailResult()}
             </div>
         );
     }

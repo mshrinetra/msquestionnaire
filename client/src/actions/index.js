@@ -57,6 +57,7 @@ export const fetchQsnr = (getQuery) => {
 
 export const submitQsnr = (payload) => {
     return function (dispatch) {
+        console.log(payload);
         axios.post("/api/qsnr_submit", payload)
             .then(
                 res => dispatch({

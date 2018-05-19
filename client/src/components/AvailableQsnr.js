@@ -9,8 +9,8 @@ class AvailableQsnr extends Component {
                 <td>{qsnr.about.qsnrTitle}</td>
                 <td>{qsnr.about.creatorName}</td>
                 <td>{qsnr.about.qsnrType}</td>
-                <td><button type="button" className="btn btn-outline-info" data-toggle="collapse" data-target={"#availableCollapse" + qsnr.about.qsnrId} aria-expanded="false" aria-controls={"availableCollapse" + qsnr.about.qsnrId}>Know More</button></td>
-                <td><Link to={{ pathname: "/questionnaire", query: { qsnrId: qsnr.about.qsnrId } }} className="btn btn-outline-success active" role="button" aria-pressed="true">Take It</Link></td>
+                <td><button type="button" className="btn btn-outline-info" data-toggle="collapse" data-target={"#availableCollapse" + qsnr.about.qsnrId} aria-expanded="false" aria-controls={"availableCollapse" + qsnr.about.qsnrId}>Know More</button>
+                    <Link to={{ pathname: "/questionnaire", query: { qsnrId: qsnr.about.qsnrId } }} className="btn btn-outline-success active ml-3" role="button" aria-pressed="true">Take It</Link></td>
             </tr >
         );
     }
@@ -44,15 +44,13 @@ class AvailableQsnr extends Component {
 
     render() {
         return (
-            <div>
-                <h2>Available Questionnaire</h2>
+            <div className="card-body">
                 <table className="table table-striped table-hover table-bordered">
                     <thead className="thead-dark">
                         <tr>
                             <th scope="col">Title</th>
                             <th scope="col">Author</th>
                             <th scope="col">Type</th>
-                            <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
                     </thead>

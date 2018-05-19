@@ -40,11 +40,9 @@ class AtendedQsnr extends Component {
         );
     }
 
-    render() {
-        console.log(this.props);
+    renderAtendedQuestionnaire() {
         return (
-            <div>
-                <h2>Atended Questionnaire</h2>
+            <div className="card-body">
                 <table className="table table-striped table-hover table-bordered">
                     <thead className="thead-dark">
                         <tr>
@@ -62,6 +60,24 @@ class AtendedQsnr extends Component {
                 <a href="#" className="btn btn-info btn-md" role="button">Next</a>
             </div>
         );
+    }
+
+    renderAtendSomeQuestionnaire() {
+        return (
+            <div className="card-body">
+                <h4>You have not atended any Questionnaire !</h4>
+                <h6>Give answers to some of above questionnaires. We hope it will be fun</h6>
+            </div>
+        );
+    }
+
+    render() {
+        console.log(this.props);
+        if (this.props.atendedQsnr.length > 0) {
+            return this.renderAtendedQuestionnaire();
+        } else {
+            return this.renderAtendSomeQuestionnaire();
+        }
     }
 }
 

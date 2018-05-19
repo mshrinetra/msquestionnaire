@@ -43,8 +43,7 @@ class CreatedQsnr extends Component {
 
     renderCreatedQuestionnaire() {
         return (
-            <div>
-                <h2>Created Questionnaire</h2>
+            <div className="card-body">
                 <table className="table table-striped table-hover table-bordered">
                     <thead className="thead-dark">
                         <tr>
@@ -61,16 +60,18 @@ class CreatedQsnr extends Component {
                 <span className="ml-4 mr-4">Page {1} of {10}</span>
                 <a href="#" className="btn btn-info btn-md" role="button">Next</a>
                 <br />
-                <Link to="/createnew" className="btn btn-primary btn-lg" role="button">Create New Questionnaire</Link>
+                <Link to="/createnew" className="btn btn-primary btn-lg mt-3" role="button">Create New Questionnaire</Link>
             </div>
         );
     }
 
     renderCreateNewQuestionnaire() {
-        <div>
-            <h3>You have not created any Questionnaire !</h3>
-            <Link to="/Createnew" className="btn btn-primary btn-lg" role="button">Create your first Questionnaire here</Link>
-        </div>
+        return (
+            <div className="card-body">
+                <h4>You have not created any Questionnaire !</h4>
+                <Link to="/Createnew" className="btn btn-primary btn-lg mt-3" role="button">Create your first Questionnaire here</Link>
+            </div>
+        );
     }
 
     render() {
