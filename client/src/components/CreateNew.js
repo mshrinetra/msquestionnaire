@@ -30,7 +30,7 @@ class CreateNew extends Component {
     handleDescriptionChange(e) {
         let newState = {
             ...this.state,
-            description: e.target.innerText
+            description: e.target.value
         };
         this.setState(newState);
     }
@@ -85,8 +85,13 @@ class CreateNew extends Component {
     }
 
     processSubmission() {
-        // this.props.submitQsnr(this.state.response);
-        console.log(this.state.questions);
+        this.props.saveNewQsnr({
+            title: this.state.title,
+            description: this.state.description,
+            type: this.state.type,
+            noOfQuestion: this.state.noOfQuestion,
+            questions: this.state.questions
+        });
     }
 
     renderSummaryForm() {
@@ -106,10 +111,10 @@ class CreateNew extends Component {
                 </div>
                 <div className="input-group mb-3">
                     <select className="custom-select" id="qCountSelect" defaultValue={"10"} onChange={e => this.handleNoOfQuestionChange(e)}>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="15">15</option>
                         <option value="20">20</option>
+                        <option value="15">15</option>
+                        <option value="10">10</option>
+                        <option value="5">5</option>
                     </select>
                     <select className="custom-select" id="qTypeSelect" defaultValue={"Survey"} onChange={e => this.handleTypeChange(e)}>
                         <option value="Survey">Survey</option>
@@ -271,7 +276,8 @@ class CreateNew extends Component {
 
 function mapStateToProps(state) {
     return {
-        auth: state.auth
+        auth: state.auth,
+        result: state.newQsnrSaveResult
     };
 }
 

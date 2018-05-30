@@ -9,6 +9,7 @@ class Questionnaire extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            qId: (this.props.location.query ? (this.props.location.query.qsnrId ? this.props.location.query.qsnrId : "") : ""),
             response: {}
         }
 
@@ -46,7 +47,10 @@ class Questionnaire extends Component {
     }
 
     processSubmission() {
-        this.props.submitQsnr(this.state.response);
+        this.props.submitQsnr({
+            qId: this.state.qId,
+            response: this.state.response
+        });
     }
 
     renderSummary() {

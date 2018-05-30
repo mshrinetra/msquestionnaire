@@ -57,7 +57,6 @@ export const fetchQsnr = (getQuery) => {
 
 export const submitQsnr = (payload) => {
     return function (dispatch) {
-        console.log(payload);
         axios.post("/api/qsnr_submit", payload)
             .then(
                 res => dispatch({
@@ -67,3 +66,15 @@ export const submitQsnr = (payload) => {
             );
     }
 };
+
+export const saveNewQsnr = (payload) => {
+    return function (dispatch) {
+        axios.post("/api/save_new_qsnr", payload)
+            .then(
+                res => dispatch({
+                    type: types.SAVE_NEW_QSNR,
+                    payload: res
+                })
+            );
+    }
+}

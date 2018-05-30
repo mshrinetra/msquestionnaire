@@ -3,53 +3,51 @@ const { Schema } = mongoose;
 
 const qsnrSchema = new Schema(
     {
-        about: {
-            qsnrTitle: String,
-            qsnrDescription: String,
-            qsnrType: String,
-            qsnrStatus: String,
-            creatorId: String,
-            creatorName: String,
-            noOfQuestions: Number
-        },
-        questionnaire: [
+        about: new Schema(
             {
-                qId: Number,
-                options: {
+                qsnrTitle: String,
+                qsnrDescription: String,
+                qsnrType: String,
+                qsnrStatus: String,
+                creatorId: String,
+                creatorName: String,
+                noOfQuestions: Number
+            },
+            { _id: false }
+        ),
+        questionnaire: [
+            new Schema(
+                {
+                    qId: Number,
                     qText: String,
-                    opA: String,
-                    opB: String,
-                    opC: String,
-                    opD: String
-                }
-            }
+                    options: new Schema(
+                        {
+                            opA: String,
+                            opB: String,
+                            opC: String,
+                            opD: String
+                        },
+                        { _id: false }
+                    )
+                },
+                { _id: false }
+            )
         ],
-        stats: {
-            totalParticipants: Number,
-            totalMarks: Number,
-            correctOps: [
-                {
-                    qId: Number,
-                    correctOp: String
-                }
-            ],
-            selectChart: [
-                {
-                    qId: Number,
-                    aCount: Number,
-                    bCount: Number,
-                    cCount: Number,
-                    dCount: Number,
-                }
-            ],
-            markChart: [
-                {
-                    participantId: String,
-                    participantName: String,
-                    marks: Number
-                }
-            ]
-        }
+        stats: new Schema(
+            {
+                totalMarks: Number,
+                correctOps: [
+                    new Schema(
+                        {
+                            qId: Number,
+                            correctOp: String
+                        },
+                        { _id: false }
+                    )
+                ]
+            },
+            { _id: false }
+        )
     }
 );
 
