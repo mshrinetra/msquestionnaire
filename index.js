@@ -2,6 +2,7 @@ const https = require("https");
 const fs = require("fs");
 const path = require("path");
 const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
@@ -10,6 +11,7 @@ const keys = require("./config/keys");
 require("./models/user");
 require("./models/profile");
 require("./models/questionnaire");
+require("./models/response");
 require("./services/passport");
 
 var options = {
@@ -33,6 +35,8 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 require("./routes/authRoutes")(app);
 require("./routes/userRoutes")(app);

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Qsnr = mongoose.model("questionnaires");
 const requireLogin = require("../middlewares/requireLogin");
+const saveNewQuestionnaire = require("../middlewares/saveNewQuestionnaire");
+const saveQuestionnaireResponse = require("../middlewares/saveQuestionnaireResponse");
 
 module.exports = app => {
     app.get(
@@ -27,9 +29,18 @@ module.exports = app => {
     app.post(
         "/api/qsnr_submit",
         requireLogin,
+        saveQuestionnaireResponse,
         (req, res) => {
-            console.log(req.body);
-            res.send({ success: true });
+            // Do nothing
+        }
+    );
+
+    app.post(
+        "/api/save_new_qsnr",
+        requireLogin,
+        saveNewQuestionnaire,
+        (req, res) => {
+            // Do nothing
         }
     );
 }
