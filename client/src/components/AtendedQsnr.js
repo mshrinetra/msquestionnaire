@@ -1,6 +1,16 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../actions";
 
 class AtendedQsnr extends Component {
+
+    componentDidMount() {
+        this.props.fetchAtendedQsnr(1);
+    }
+
+    gotoPage(page) {
+        this.props.fetchAtendedQsnr(page);
+    }
 
     renderTableDataRow(qsnr) {
         return (
@@ -33,14 +43,14 @@ class AtendedQsnr extends Component {
 
     renderTableBody(qsnr) {
         return (
-            <tbody key={qsnr.qsnrId}>
+            <tbody key={qsnr.qsnrId + Math.random().toString()}>
                 {this.renderTableDataRow(qsnr)}
                 {this.renderTableCollapse(qsnr)}
             </tbody>
         );
     }
 
-    renderAtendedQuestionnaire() {
+    renderTable() {
         return (
             <div className="card-body">
                 <table className="table table-striped table-hover table-bordered">
@@ -53,11 +63,11 @@ class AtendedQsnr extends Component {
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    {this.props.atendedQsnr.map(qsnr => this.renderTableBody(qsnr))}
+                    {this.props.atendedQsnr.docs.map(qsnr => this.renderTableBody(qsnr))}
                 </table>
-                <a href="#" className="btn btn-info btn-md" role="button">Prev</a>
-                <span className="ml-4 mr-4">Page {1} of {10}</span>
-                <a href="#" className="btn btn-info btn-md" role="button">Next</a>
+                {this.renderPrevBtn()}
+                <span className="ml-3 mr-3">{"Page  " + this.props.atendedQsnr.currentPage}</span>
+                {this.renderNextBtn()}
             </div>
         );
     }
@@ -71,14 +81,64 @@ class AtendedQsnr extends Component {
         );
     }
 
-    render() {
-        console.log(this.props);
-        if (this.props.atendedQsnr.length > 0) {
-            return this.renderAtendedQuestionnaire();
+    renderPrevBtn() {
+        if (this.props.atendedQsnr.currentPage <= 1) {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Prev</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.atendedQsnr.currentPage) - 1)}>Prev</button>
+            )
+        }
+    }
+
+    renderNextBtn() {
+        if (this.props.atendedQsnr.isMore) {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.atendedQsnr.currentPage) + 1)}>Next</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Next</button>
+            )
+        }
+    }
+
+    renderWaitToLoad() {
+        return (
+            <div className="text-center">
+                <h4>Please Wait...</h4>
+            </div>
+        );
+    }
+
+    renderAsPerState() {
+        if (!this.props.atendedQsnr) {
+            return this.renderWaitToLoad();
+        } else if (this.props.atendedQsnr.docs.length > 0) {
+            return this.renderTable();
         } else {
             return this.renderAtendSomeQuestionnaire();
         }
     }
+
+    render() {
+        return (
+            <div className="card border-success text-success mb-3">
+                <div className="card-header text-white bg-success text-center">
+                    <h3>Atended Questionnaires</h3>
+                </div>
+                {this.renderAsPerState()}
+            </div>
+        );
+    }
 }
 
-export default AtendedQsnr;
+function mapStateToProps(state) {
+    return ({
+        atendedQsnr: state.atendedQsnr
+    });
+}
+
+export default connect(mapStateToProps, actions)(AtendedQsnr);

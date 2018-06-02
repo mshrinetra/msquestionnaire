@@ -8,8 +8,21 @@ module.exports = app => {
     app.get(
         "/api/available_qsnr",
         (req, res) => {
-            Qsnr.find({}).then(docs => {
-                res.send(docs);
+            let skip = (parseInt(req.query.page) - 1) * 5;
+            let limit = 5 + 1;
+            let isMore = false;
+            let sliceLength = 5;
+            Qsnr.find({}, {}, { skip: skip, limit: limit }).then(docs => {
+                if (docs.length > 5) {
+                    isMore = true;
+                } else {
+                    sliceLength = docs.length + 1;
+                }
+                res.send({
+                    docs: docs.slice(0, sliceLength),
+                    isMore: isMore,
+                    currentPage: parseInt(req.query.page)
+                });
             });
         }
     );

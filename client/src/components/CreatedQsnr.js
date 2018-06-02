@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../actions";
 
 class CreatedQsnr extends Component {
+
+    componentDidMount() {
+        this.props.fetchCreatedQsnr(1);
+    }
+
+    gotoPage(page) {
+        this.props.fetchCreatedQsnr(page);
+    }
 
     renderTableDataRow(qsnr) {
         return (
@@ -34,7 +44,7 @@ class CreatedQsnr extends Component {
 
     renderTableBody(qsnr) {
         return (
-            <tbody key={qsnr.qsnrId}>
+            <tbody key={qsnr.qsnrId + Math.random().toString()}>
                 {this.renderTableDataRow(qsnr)}
                 {this.renderTableCollapse(qsnr)}
             </tbody>
@@ -54,13 +64,45 @@ class CreatedQsnr extends Component {
                             <th scoe="col"></th>
                         </tr>
                     </thead>
-                    {this.props.createdQsnr.map(qsnr => this.renderTableBody(qsnr))}
+                    {this.props.createdQsnr.docs.map(qsnr => this.renderTableBody(qsnr))}
                 </table>
-                <a href="#" className="btn btn-info btn-md" role="button">Prev</a>
-                <span className="ml-4 mr-4">Page {1} of {10}</span>
-                <a href="#" className="btn btn-info btn-md" role="button">Next</a>
+                {this.renderPrevBtn()}
+                <span className="ml-3 mr-3">{"Page  " + this.props.createdQsnr.currentPage}</span>
+                {this.renderNextBtn()}
                 <br />
                 <Link to="/createnew" className="btn btn-primary btn-lg mt-3" role="button">Create New Questionnaire</Link>
+            </div>
+        );
+    }
+
+    renderPrevBtn() {
+        if (this.props.createdQsnr.currentPage <= 1) {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Prev</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.createdQsnr.currentPage) - 1)}>Prev</button>
+            )
+        }
+    }
+
+    renderNextBtn() {
+        if (this.props.createdQsnr.isMore) {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.createdQsnr.currentPage) + 1)}>Next</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Next</button>
+            )
+        }
+    }
+
+    renderWaitToLoad() {
+        return (
+            <div className="text-center">
+                <h4>Please Wait...</h4>
             </div>
         );
     }
@@ -74,13 +116,32 @@ class CreatedQsnr extends Component {
         );
     }
 
-    render() {
-        if (this.props.createdQsnr.length > 0) {
+    renderAsPerState() {
+        if (!this.props.createdQsnr) {
+            return this.renderWaitToLoad();
+        } else if (this.props.createdQsnr.docs.length > 0) {
             return this.renderCreatedQuestionnaire();
         } else {
             return this.renderCreateNewQuestionnaire();
         }
     }
+
+    render() {
+        return (
+            <div className="card border-info text-info mb-3">
+                <div className="card-header text-white bg-info text-center">
+                    <h3>Created Questionnaires</h3>
+                </div>
+                {this.renderAsPerState()}
+            </div>
+        );
+    }
 }
 
-export default CreatedQsnr;
+function mapStateToProps(state) {
+    return ({
+        createdQsnr: state.createdQsnr
+    });
+}
+
+export default connect(mapStateToProps, actions)(CreatedQsnr);

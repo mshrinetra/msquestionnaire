@@ -19,9 +19,10 @@ export const fetchUser = () => {
     }
 };
 
-export const fetchAvailableQsnr = () => {
+export const fetchAvailableQsnr = (page) => {
+    let getQuery = "/api/available_qsnr/?page=" + page;
     return function (dispatch) {
-        axios.get("/api/available_qsnr")
+        axios.get(getQuery)
             .then(
                 res => dispatch({
                     type: types.FETCH_AVAILABLE_QSNR,
@@ -43,7 +44,34 @@ export const fetchProfile = () => {
     }
 };
 
-export const fetchQsnr = (getQuery) => {
+export const fetchAtendedQsnr = (page) => {
+    let getQuery = "/api/atended_qsnr/?page=" + page;
+    return function (dispatch) {
+        axios.get(getQuery)
+            .then(
+                res => dispatch({
+                    type: types.FETCH_ATENDED_QSNR,
+                    payload: res
+                })
+            );
+    }
+};
+
+export const fetchCreatedQsnr = (page) => {
+    let getQuery = "/api/created_qsnr/?page=" + page;
+    return function (dispatch) {
+        axios.get(getQuery)
+            .then(
+                res => dispatch({
+                    type: types.FETCH_CREATED_QSNR,
+                    payload: res
+                })
+            );
+    }
+};
+
+export const fetchQsnr = (qsnrId) => {
+    let getQuery = "/api/qsnr/?qsnrId=" + qsnrId;
     return function (dispatch) {
         axios.get(getQuery)
             .then(
