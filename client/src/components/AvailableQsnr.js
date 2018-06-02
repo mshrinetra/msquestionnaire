@@ -1,7 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../actions";
 
 class AvailableQsnr extends Component {
+
+    componentDidMount() {
+        this.props.fetchAvailableQsnr(1);
+    }
+
+    gotoPage(page) {
+        this.props.fetchAvailableQsnr(page);
+    }
 
     renderTableDataRow(qsnr) {
         return (
@@ -14,6 +24,7 @@ class AvailableQsnr extends Component {
             </tr >
         );
     }
+
     renderTableCollapse(qsnr) {
         return (
             <tr className="collapse" id={"availableCollapse" + qsnr.about.qsnrId}>
@@ -34,15 +45,47 @@ class AvailableQsnr extends Component {
 
     renderTableBody(qsnr) {
         return (
-            <tbody key={qsnr.about.qsnrId}>
+            <tbody key={qsnr.about.qsnrId + Math.random().toString()}>
                 {this.renderTableDataRow(qsnr)}
                 {this.renderTableCollapse(qsnr)}
             </tbody>
         );
     }
 
+    renderWaitToLoad() {
+        return (
+            <div className="text-center">
+                <h4>Please Wait...</h4>
+            </div>
+        );
+    }
 
-    render() {
+
+    renderPrevBtn() {
+        if (this.props.availableQsnr.currentPage <= 1) {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Prev</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.availableQsnr.currentPage) - 1)}>Prev</button>
+            )
+        }
+    }
+
+    renderNextBtn() {
+        if (this.props.availableQsnr.isMore) {
+            return (
+                <button className="btn btn-info btn-md" onClick={e => this.gotoPage(parseInt(this.props.availableQsnr.currentPage) + 1)}>Next</button>
+            )
+        } else {
+            return (
+                <button className="btn btn-info btn-md btn-disabled" disabled>Next</button>
+            )
+        }
+    }
+
+    renderTable() {
         return (
             <div className="card-body">
                 <table className="table table-striped table-hover table-bordered">
@@ -54,14 +97,51 @@ class AvailableQsnr extends Component {
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    {this.props.availableQsnr.map(qsnr => this.renderTableBody(qsnr))}
+                    {this.props.availableQsnr.docs.map(qsnr => this.renderTableBody(qsnr))}
                 </table>
-                <a href="#" className="btn btn-info btn-md" role="button">Prev</a>
-                <span className="ml-4 mr-4">Page {1} of {10}</span>
-                <a href="#" className="btn btn-info btn-md" role="button">Next</a>
+                {this.renderPrevBtn()}
+                <span className="ml-3 mr-3">{"Page  " + this.props.availableQsnr.currentPage}</span>
+                {this.renderNextBtn()}
             </div >
+        );
+    }
+
+    renderNoAvailableQsnr() {
+        return (
+            <div className="text-center">
+                <h3 >Sorry !!!</h3>
+                <h4>No Questionnaire to display at the moment.</h4>
+            </div>
+        );
+    }
+
+    renderAsPerState() {
+        if (!this.props.availableQsnr) {
+            return this.renderWaitToLoad();
+        } else if (!this.props.availableQsnr.docs.length > 0) {
+            return this.renderTable();
+        } else {
+            return this.renderNoAvailableQsnr();
+        }
+    }
+
+    render() {
+        return (
+            <div className="card border-primary text-primary mb-3">
+                <div className="card-header text-white bg-primary text-center">
+                    <h3>Available Questionnaires</h3>
+                </div>
+                {/* {this.props.availableQsnr.docs ? this.renderAvailableQsnr(this.props.availableQsnr.docs) : ""} */}
+                {this.props.availableQsnr ? this.renderTable() : this.renderWaitToLoad()}
+            </div>
         );
     }
 }
 
-export default AvailableQsnr;
+function mapStateToProps(state) {
+    return {
+        availableQsnr: state.availableQsnr
+    };
+}
+
+export default connect(mapStateToProps, actions)(AvailableQsnr);

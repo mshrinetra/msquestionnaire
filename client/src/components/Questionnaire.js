@@ -19,8 +19,7 @@ class Questionnaire extends Component {
     componentDidMount() {
         if (this.props.location.query) {
             const { qsnrId } = this.props.location.query;
-            const getQuery = `/api/qsnr/?qsnrId=${qsnrId}`;
-            this.props.fetchQsnr(getQuery);
+            this.props.fetchQsnr(qsnrId);
         }
     }
 
@@ -181,12 +180,32 @@ class Questionnaire extends Component {
 
     }
 
+    renderWaitToLoad() {
+        return (
+            <div className="text-center">
+                <h3>Please Wait...</h3>
+            </div>
+        );
+    }
+
+    renderAsPerState() {
+        if (this.props.result) {
+            return this.renderResult();
+        } else if (this.props.qsnr) {
+            return this.renderQuestionnaire();
+        } else if (this.props.location.query) {
+            return this.renderWaitToLoad();
+        } else {
+            return this.renderNoQsnr();
+        }
+    }
+
     render() {
         return (
             <div>
                 <Header location={this.props.location.pathname} />
                 <h2>Questionnaire</h2>
-                {this.props.result ? this.renderResult() : (this.props.qsnr ? this.renderQuestionnaire() : this.renderNoQsnr())}
+                {this.renderAsPerState()}
             </div>
         );
     }
