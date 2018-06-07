@@ -1,6 +1,6 @@
 # MS Questionnaire
 _A questionnaire website for survey and test._  
-[MS Questionnaire](https://www.msquestionnaire.tk)
+[MS Questionnaire](https://boiling-beach-61176.herokuapp.com)
 
 ---
 
