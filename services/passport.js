@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
 const User = mongoose.model("users");
+const Profile = mongoose.model("profile");
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -40,7 +41,16 @@ passport.use(
                         })
                             .save()
                             .then(newUser => {
-                                done(null, newUser);
+                                new Profile({
+                                    userId: newUser._id,
+                                    userName: newUser.userName,
+                                    participationList: [],
+                                    questionnaireList: []
+                                })
+                                    .save()
+                                    .then(profile => {
+                                        done(null, newUser);
+                                    });
                             });
                     }
                 });

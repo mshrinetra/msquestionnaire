@@ -35,7 +35,7 @@ const profileSchema = new Schema({
             },
             { _id: false }
         )
-    ],
+    ]
 });
 
 mongoose.model("profile", profileSchema);

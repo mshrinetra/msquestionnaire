@@ -31,9 +31,7 @@ module.exports = app => {
         "/api/qsnr",
         requireLogin,
         (req, res) => {
-            Qsnr.findOne({
-                "about.qsnrId": req.query.qsnrId
-            }).then(docs => {
+            Qsnr.findById(req.query.qsnrId).then(docs => {
                 docs ? res.send({ about: docs.about, qsnr: docs.questionnaire }) : res.send("");
             });
         }

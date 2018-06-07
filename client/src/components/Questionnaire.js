@@ -12,7 +12,6 @@ class Questionnaire extends Component {
             qId: (this.props.location.query ? (this.props.location.query.qsnrId ? this.props.location.query.qsnrId : "") : ""),
             response: {}
         }
-
         this.processSubmission = this.processSubmission.bind(this);
     }
 

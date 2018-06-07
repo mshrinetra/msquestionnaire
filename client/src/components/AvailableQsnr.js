@@ -19,18 +19,18 @@ class AvailableQsnr extends Component {
                 <td>{qsnr.about.qsnrTitle}</td>
                 <td>{qsnr.about.creatorName}</td>
                 <td>{qsnr.about.qsnrType}</td>
-                <td><button type="button" className="btn btn-outline-info" data-toggle="collapse" data-target={"#availableCollapse" + qsnr.about.qsnrId} aria-expanded="false" aria-controls={"availableCollapse" + qsnr.about.qsnrId}>Know More</button>
-                    <Link to={{ pathname: "/questionnaire", query: { qsnrId: qsnr.about.qsnrId } }} className="btn btn-outline-success active ml-3" role="button" aria-pressed="true">Take It</Link></td>
+                <td><button type="button" className="btn btn-outline-info" data-toggle="collapse" data-target={"#availableCollapse" + qsnr._id} aria-expanded="false" aria-controls={"availableCollapse" + qsnr._id}>Know More</button>
+                    <Link to={{ pathname: "/questionnaire", query: { qsnrId: qsnr._id } }} className="btn btn-outline-success active ml-3" role="button" aria-pressed="true">Take It</Link></td>
             </tr >
         );
     }
 
     renderTableCollapse(qsnr) {
         return (
-            <tr className="collapse" id={"availableCollapse" + qsnr.about.qsnrId}>
+            <tr className="collapse" id={"availableCollapse" + qsnr._id}>
                 <td colSpan="5">
                     <ul>
-                        <li><b>Questionnaire ID: </b>{qsnr.about.qsnrId}</li>
+                        <li><b>Questionnaire ID: </b>{qsnr._id}</li>
                         <li><b>Title: </b>{qsnr.about.qsnrTitle}</li>
                         <li><b>Description: </b>{qsnr.about.qsnrDescription}</li>
                         <li><b>Author: </b>{qsnr.about.creatorName}</li>
@@ -45,7 +45,7 @@ class AvailableQsnr extends Component {
 
     renderTableBody(qsnr) {
         return (
-            <tbody key={qsnr.about.qsnrId + Math.random().toString()}>
+            <tbody key={qsnr._id + Math.random().toString()}>
                 {this.renderTableDataRow(qsnr)}
                 {this.renderTableCollapse(qsnr)}
             </tbody>
@@ -118,7 +118,7 @@ class AvailableQsnr extends Component {
     renderAsPerState() {
         if (!this.props.availableQsnr) {
             return this.renderWaitToLoad();
-        } else if (!this.props.availableQsnr.docs.length > 0) {
+        } else if (this.props.availableQsnr.docs.length > 0) {
             return this.renderTable();
         } else {
             return this.renderNoAvailableQsnr();
@@ -132,7 +132,7 @@ class AvailableQsnr extends Component {
                     <h3>Available Questionnaires</h3>
                 </div>
                 {/* {this.props.availableQsnr.docs ? this.renderAvailableQsnr(this.props.availableQsnr.docs) : ""} */}
-                {this.props.availableQsnr ? this.renderTable() : this.renderWaitToLoad()}
+                {this.renderAsPerState()}
             </div>
         );
     }
