@@ -14,13 +14,17 @@ require("./models/questionnaire");
 require("./models/response");
 require("./services/passport");
 
-var options = {
-    key: fs.readFileSync("./config/server.key"),
-    cert: fs.readFileSync("./config/server.crt"),
-    ca: fs.readFileSync("./config/msRootCA.crt"),
-    requestCert: false,
-    rejectUnauthorized: false
-};
+if (!(process.env.NODE_ENV === "production")) {
+    // Only in develeopment environment
+    var options = {
+        key: fs.readFileSync("./config/server.key"),
+        cert: fs.readFileSync("./config/server.crt"),
+        ca: fs.readFileSync("./config/msRootCA.crt"),
+        requestCert: false,
+        rejectUnauthorized: false
+    };
+}
+
 
 mongoose.connect(keys.mongoDB.mongoURI);
 
@@ -52,6 +56,18 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = (process.env.PORT ? process.env.PORT : (process.env.NODE_ENV === "production" ? 443 : 5000));
 
-var server = https.createServer(options, app).listen(PORT, function () {
-    console.log("Server started at port " + PORT + " !")
-});
+if (!(process.env.NODE_ENV === "production")) {
+    // Only in development environment.
+    // As Facebook does not allows redirection to non SSL URL.
+    // For development purpose server must be https
+    var server = https.createServer(options, app).listen(PORT, function () {
+        console.log("Server started at port " + PORT + " !")
+    });
+} else {
+    // For Heroku production environment.
+    // As HTTPS trafic gets filtered at load balencer and Dynos only gets HTTP Request
+    // If server will be running on HTTP Heroku will git ERROR: H13
+    var server = app.listen(PORT, function () {
+        console.log("Server started at port " + PORT + " !")
+    });
+}
